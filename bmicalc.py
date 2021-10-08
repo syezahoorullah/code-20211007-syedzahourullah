@@ -2,28 +2,37 @@ import json
 import ijson
 from urllib import request
 
+ow_count=0 #counter for overweight    
 def opt(person):
-    
+    global ow_count
     BMI=(int(person["WeightKg"])/((float(person["HeightCm"])/100)**2))
     if(BMI<18.5):
-        print("Underweight")
+        pass
+        # print("Underweight")
     elif(BMI>=18.5 and BMI<25):
-        print("Normal weight")
+        pass
+        # print("Normal weight")
     elif(BMI>=25 and BMI<30):
-        print("Overweight")
+        pass
+        # print("Overweight")
+        ow_count+=1
     elif(BMI>=30 and BMI<35):
-        print("Moderately obese")
+        pass
+        # print("Moderately obese")
     elif(BMI>=35 and BMI<40):
-        print("Severely obese")
+        pass
+        # print("Severely obese")
     elif(BMI<=40):
-        print("Very severely obese")
+        pass
+        # print("Very severely obese")
+    
 
 def do_op(loc):
     
     objects = ijson.items(loc,'item')
     for ob in objects:
         opt(ob)
-
+    print("\nThe total overweight people are:",ow_count)
 
 FILENAME='filedata.json'
 def with_file(FILENAME):
