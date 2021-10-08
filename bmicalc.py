@@ -1,4 +1,6 @@
+import json
 import ijson
+from urllib import request
 
 def opt(person):
     
@@ -23,15 +25,8 @@ def do_op(loc):
         opt(ob)
 
 
-FILENAME='data.json'
+FILENAME='filedata.json'
 def with_file(FILENAME):
-    
-    option=input("The file named data.json needs to be present in the current working directory.\nDo you wish to enter file destination manually. (Y/N)\n")
-
-    if(option=='Y' or option == 'y'):
-        FILENAME = ''
-        while FILENAME == '':
-            FILENAME = input("Please enter the filename along with full path to the JSON file\n")
     try:
        with open(FILENAME) as ff:
             do_op(ff)
@@ -39,4 +34,29 @@ def with_file(FILENAME):
         print("An issue occured while processing the file please try again")
 
 
-with_file(FILENAME)
+def with_url(url):
+    
+    fu = request.urlopen(url)
+
+    with open('urldata.json', 'w', encoding='utf-8') as f:
+        f.write(fu.read().decode('utf-8'))
+    with_file('urldata.json')
+        
+    # do_op(fu.read())
+sel_opt=0
+while sel_opt!=3:
+    try:
+        sel_opt = int(input("Through which mode you wish to continue:\n1. Using a file\n2. Using URL\n3. Exit\n"))
+    except:
+        print("Please provide a valid option")
+    if sel_opt==1:
+        option=input("The file named data.json needs to be present in the current working directory.\nDo you wish to enter file destination manually. (Y/N)\n")
+        if(option=='Y' or option == 'y'):
+            FILENAME = ''
+            while FILENAME == '':
+                FILENAME = input("Please enter the filename along with full path to the JSON file\n")
+        with_file(FILENAME)
+        break
+    elif sel_opt==2:
+        with_url(input("Please enter the URL\n"))
+        break
